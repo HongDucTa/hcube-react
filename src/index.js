@@ -8,8 +8,8 @@ import Dashboard from './Dashboard/Dashboard';
 import Authentification from './Authentification/Authentification';
 
 //ReactDOM.render(<App />, document.getElementById('root'));
-ReactDOM.render(<Authentification />, document.getElementById('root'));
-//ReactDOM.render(<Dashboard />, document.getElementById('root'));
+//ReactDOM.render(<Authentification />, document.getElementById('root'));
+ReactDOM.render(<Dashboard />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
