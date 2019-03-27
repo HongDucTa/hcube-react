@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import './Dashboard.css';
 
-import { Grid, StatsCard, Timeline } from "tabler-react";
+import { Grid, StatsCard } from "tabler-react";
 
 import axios from "axios";
-import writeFileSync from "fs";
+import Chart from '../Chart/Chart';
 
 class Dashboard extends Component {
 
@@ -13,16 +14,27 @@ class Dashboard extends Component {
         measures: []
     }
 
-
-    fetchBitcoinRate() {
-    }
-
     componentDidMount() {
         axios.get(`https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=BTC&to_currency=EUR&apikey=S1IJ9J47UJ5M05Y6`)
             .then(res => {
                 var content = JSON.parse(res.request.response);
                 var coursBitcoin = content["Realtime Currency Exchange Rate"]["5. Exchange Rate"];
-                this.setState({coursBitcoin: coursBitcoin});
+                this.setState({ coursBitcoin: coursBitcoin });
+            });
+
+        axios.get(`https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_DAILY&symbol=BTC&market=EUR&apikey=S1IJ9J47UJ5M05Y6`)
+            .then(res => {
+                var content = JSON.parse(res.request.response)["Time Series (Digital Currency Daily)"];
+                var list = [];
+                var individu;
+                for (var name in content) {
+                    individu = {
+                        date: name,
+                        value: Number(content[name]["1a. open (EUR)"])
+                    }
+                    list.push([individu.date, individu.value]);
+                }
+                this.setState({ measures: list }, () => { ReactDOM.render(<Chart measures={this.state.measures} />, document.getElementById('chart')) });
             });
     }
 
@@ -30,7 +42,9 @@ class Dashboard extends Component {
         return (
             <div id="root">
                 <Grid.Row>
-                    <Grid.Col>Dashboard</Grid.Col>
+                    <Grid.Col>
+                        <h1>Dashboard</h1>
+                    </Grid.Col>
                 </Grid.Row>
                 <Grid.Row>
                     <Grid.Col>
