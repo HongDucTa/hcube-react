@@ -1,27 +1,50 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import './Authentification.css';
 
 import "tabler-react/dist/Tabler.css";
 
 import { Grid } from "tabler-react";
 
+import GoogleLogin from 'react-google-login';
+
+import { GoogleLogout } from 'react-google-login';
+
 class Authentification extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.onSignIn = this.onSignIn.bind(this)
     }
 
-    onSignIn(googleUser) {
-        console.log("TEST");
-        var profile = googleUser.getBasicProfile();
-        console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-        console.log('Name: ' + profile.getName());
-        console.log('Image URL: ' + profile.getImageUrl());
-        console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+    responseGoogle(response) {
+        console.log(response.w3.ig);
     }
 
-    Login() {
+    logout()
+    {
+        console.log("Log out success");
+    }
+
+    componentDidMount() {
+        ReactDOM.render(
+            <GoogleLogin
+                clientId="1034537825797-hvfejr38ph2l85vvibb4qtjn8pkrmih8.apps.googleusercontent.com"
+                buttonText="Login"
+                onSuccess={this.responseGoogle}
+                onFailure={this.responseGoogle}
+                cookiePolicy={'single_host_origin'}
+            />,
+            document.getElementById('googleButton')
+        );
+
+        ReactDOM.render(
+            <GoogleLogout
+                buttonText="Logout"
+                onLogoutSuccess={this.logout}
+            >
+            </GoogleLogout>,
+            document.getElementById('googleLogOut')
+        )
     }
 
     render() {
@@ -33,7 +56,16 @@ class Authentification extends Component {
                     </Grid.Row>
                     <Grid.Row>
                         <Grid.Col offset="5">
-                            <div className="g-signin2" data-onsuccess="onSignIn"></div>
+                        </Grid.Col>
+                    </Grid.Row>
+                    <Grid.Row>
+                        <Grid.Col>
+                            <div id="googleButton"></div>
+                        </Grid.Col>
+                    </Grid.Row>
+                    <Grid.Row>
+                        <Grid.Col>
+                            <div id="googleLogOut"></div>
                         </Grid.Col>
                     </Grid.Row>
                 </Grid>

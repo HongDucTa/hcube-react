@@ -7,11 +7,18 @@ import { Grid, StatsCard } from "tabler-react";
 import axios from "axios";
 import Chart from '../Chart/Chart';
 
+import { GoogleLogout } from 'react-google-login';
+
 class Dashboard extends Component {
 
     state = {
         coursBitcoin: 0,
         measures: []
+    }
+
+    logout()
+    {
+        
     }
 
     componentDidMount() {
