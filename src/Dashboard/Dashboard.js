@@ -8,17 +8,21 @@ import axios from "axios";
 import Chart from '../Chart/Chart';
 
 import { GoogleLogout } from 'react-google-login';
+import Authentification from '../Authentification/Authentification';
 
 class Dashboard extends Component {
 
-    state = {
-        coursBitcoin: 0,
-        measures: []
+    constructor(props) {
+        super(props);
+        this.state = {
+            name: this.props.name,
+            coursBitcoin: 0,
+            measures: []
+        }
     }
 
-    logout()
-    {
-        
+    logout() {
+        ReactDOM.render(<Authentification></Authentification>, document.getElementById("root"));
     }
 
     componentDidMount() {
@@ -48,9 +52,17 @@ class Dashboard extends Component {
     render() {
         return (
             <div id="root">
-                <Grid.Row>
+                <Grid.Row alignItems="center">
                     <Grid.Col>
                         <h1>Dashboard</h1>
+                    </Grid.Col>
+                    <Grid.Col>
+                        <p>Bonjour {this.state.name} !</p>
+                        <GoogleLogout
+                            buttonText="Se déconnecter"
+                            onLogoutSuccess={this.logout}
+                        >
+                        </GoogleLogout>
                     </Grid.Col>
                 </Grid.Row>
                 <Grid.Row>
@@ -60,6 +72,7 @@ class Dashboard extends Component {
                 </Grid.Row>
                 <Grid.Row>
                     <Grid.Col>
+                        <div id="chart"></div>
                     </Grid.Col>
                 </Grid.Row>
             </div>

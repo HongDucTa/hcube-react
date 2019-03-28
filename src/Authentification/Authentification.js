@@ -8,7 +8,7 @@ import { Grid } from "tabler-react";
 
 import GoogleLogin from 'react-google-login';
 
-import { GoogleLogout } from 'react-google-login';
+import Dashboard from '../Dashboard/Dashboard';
 
 class Authentification extends Component {
 
@@ -16,35 +16,31 @@ class Authentification extends Component {
         super(props);
     }
 
-    responseGoogle(response) {
-        console.log(response.w3.ig);
+    responseGoogleSuccess(response) {
+        var name = response.w3.ig;
+        ReactDOM.render(<Dashboard name={name}></Dashboard>,document.getElementById("root"));
     }
 
-    logout()
+    responseGoogleFailure()
     {
-        console.log("Log out success");
+        ReactDOM.render(
+            <p style={{color: "red"}}>Erreur ! Connexion échouée.</p>,
+            document.getElementById("errorMessage")
+        );
     }
 
     componentDidMount() {
         ReactDOM.render(
             <GoogleLogin
                 clientId="1034537825797-hvfejr38ph2l85vvibb4qtjn8pkrmih8.apps.googleusercontent.com"
-                buttonText="Login"
-                onSuccess={this.responseGoogle}
-                onFailure={this.responseGoogle}
+                buttonText="Se connecter"
+                onSuccess={this.responseGoogleSuccess}
+                onFailure={this.responseGoogleFailure}
                 cookiePolicy={'single_host_origin'}
             />,
             document.getElementById('googleButton')
         );
 
-        ReactDOM.render(
-            <GoogleLogout
-                buttonText="Logout"
-                onLogoutSuccess={this.logout}
-            >
-            </GoogleLogout>,
-            document.getElementById('googleLogOut')
-        )
     }
 
     render() {
@@ -52,10 +48,8 @@ class Authentification extends Component {
             <div>
                 <Grid>
                     <Grid.Row>
-                        <Grid.Col>Bienvenue !</Grid.Col>
-                    </Grid.Row>
-                    <Grid.Row>
-                        <Grid.Col offset="5">
+                        <Grid.Col>
+                            <h1>Bienvenue !</h1>
                         </Grid.Col>
                     </Grid.Row>
                     <Grid.Row>
@@ -65,7 +59,7 @@ class Authentification extends Component {
                     </Grid.Row>
                     <Grid.Row>
                         <Grid.Col>
-                            <div id="googleLogOut"></div>
+                            <div id="errorMessage"></div>
                         </Grid.Col>
                     </Grid.Row>
                 </Grid>

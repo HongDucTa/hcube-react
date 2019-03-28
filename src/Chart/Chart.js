@@ -18,7 +18,7 @@ class Chart extends Component {
       timeseriesDs: {
         type: 'timeseries',
         renderAt: 'container',
-        width: '600',
+        width: '100%',
         height: '400',
         dataSource: {
           chart: {
